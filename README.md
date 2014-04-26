@@ -20,13 +20,15 @@ It may work on other Unix like operating systems, but your mileage may differ.
 
 | Key                                | Type    | Default                           | Description                                                          |
 |------------------------------------|---------|-----------------------------------|----------------------------------------------------------------------|
-| ['ircd']['user']                   | String  | "ircd"                            | The user to create that ircd will be installed as                    |
-| ['ircd']['group']                  | String  | "ircd"                            | The group to be created that ircd will be installed as               |
-| ['ircd']['server']['version']      | String  | "3.0.8"                           | The ircd-ratbox version to install                                   |
-| ['ircd']['server']['directory']    | String  | "/usr/local/ircd/ratbox"          | The install directory "/usr/local/ircd"                              |
+| ['ircd']['server']['user']         | String  | "ratbox"                          | The user to create that ircd will be installed as                    |
+| ['ircd']['server']['group']        | String  | "ratbox"                          | The group to be created that ircd will be installed as               |
+| ['ircd']['server']['directory']    | String  | "/home/ratbox"                    | The install directory "/usr/local/ircd"                              |
+| ['ircd']['server']['download']     | String  | ratbox version 3.0.8              | The URI to the ratbox download archive to build and install          |
 | ['ircd']['server']['sourcedir']    | String  | server directory + /src           | The source code directory                                            |
-| ['ircd']['services']['version']    | String  | "1.2.4"                           | The ircd-ratbox version to install                                   |
-| ['ircd']['services']['directory']  | String  | "/usr/local/ircd/ratbox-services" | The install directory "/usr/local/ircd"                              |
+| ['ircd']['services']['user']       | String  | "ratbox-services"                 | The user to create that ratbox services will be installed as         |
+| ['ircd']['services']['group']      | String  | "ratbox-services"                 | The group to be created that ratbox services will be installed as    |
+| ['ircd']['services']['directory']  | String  | "/home/ratbox-services"           | The install directory "/usr/local/ircd"                              |
+| ['ircd']['services']['download']   | String  | ratbox-services version 1.2.4     | The URI to the ratbox-services download archive to build and install |
 | ['ircd']['services']['sourcedir']  | String  | services directory + /src         | The source code directory                                            |
 
 ## Usage
