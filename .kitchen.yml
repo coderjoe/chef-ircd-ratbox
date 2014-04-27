@@ -14,3 +14,12 @@ suites:
     run_list:
       - recipe[ircd-ratbox::default]
     attributes:
+  - name: server
+    run_list:
+      - recipe[ircd-ratbox::default]
+    attributes:
+  - name: services
+    run_list:
+      - recipe[ircd-ratbox::default]
+    attributes:
+
