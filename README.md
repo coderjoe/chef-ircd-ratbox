@@ -33,7 +33,7 @@ It may work on other Unix like operating systems, but your mileage may differ.
 
 ## Usage
 
-### ircd-ratbox::default
+If you'd like to install both ratbox and ratbox-services you can use the default recipe.
 
 Include `ircd-ratbox` in your node's `run_list`:
 
@@ -45,13 +45,25 @@ Include `ircd-ratbox` in your node's `run_list`:
 }
 ```
 
+Otherwise you can choose between installing either the ratbox ircd server or ratbox-services
+using their individual recipes.
+
+```json
+{
+  "run_list": [
+    "recipe[ircd-ratbox::server]",
+    "recipe[ircd-ratbox::services]"
+  ]
+}
+```
+
 ## Contributing
 
 1. Fork the repository on Github
 2. Create a named feature branch (i.e. `add-new-recipe`)
 3. Write you change
-4. Write tests for your change (if applicable)
-5. Run the tests, ensuring they all pass
+4. Write tests for your change
+5. Run the tests, ensuring they all pass in both ruby 1.9.3 and 2.0.0
 6. Submit a Pull Request
 
 ## License and Authors
