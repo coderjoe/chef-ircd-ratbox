@@ -10,8 +10,6 @@ Configuration of ircd is left as an exercise for any recipes using this cookbook
 
 This cookbook has only tested under:
  - Ubuntu 12.04
- - Ubuntu 13.10
- - Ubuntu 14.04
  - Debian 7.4
 
 It may work on other Unix like operating systems, but your mileage may differ.
