@@ -1,6 +1,18 @@
 # Encoding: utf-8
 require 'spec_helper'
 
+def build_chef_run(opts = {})
+  ChefSpec::Runner.new do |node|
+    node.set[:ircd][:services][:user] = services_user
+    node.set[:ircd][:services][:group] = services_group
+    node.set[:ircd][:services][:sourcedir] = services_source_dir
+    node.set[:ircd][:services][:directory] = services_directory
+    node.set[:ircd][:services][:download] = services_uri
+
+    node.set[:ircd][:config][:ssl] = opts.fetch(:ssl, true)
+  end.converge(described_recipe)
+end
+
 describe 'ircd-ratbox::services' do
   let(:services_user) { 'services-user' }
   let(:services_group) { 'services-group' }
@@ -11,15 +23,8 @@ describe 'ircd-ratbox::services' do
     "http://fake.example.com/ratbox-svc/#{services_filename}"
   end
 
-  let(:chef_run) do
-    ChefSpec::Runner.new do |node|
-      node.set[:ircd][:services][:user] = services_user
-      node.set[:ircd][:services][:group] = services_group
-      node.set[:ircd][:services][:sourcedir] = services_source_dir
-      node.set[:ircd][:services][:directory] = services_directory
-      node.set[:ircd][:services][:download] = services_uri
-    end.converge(described_recipe)
-  end
+  let(:chef_run) { build_chef_run }
+  let(:chef_no_ssl) { build_chef_run(ssl: false) }
 
   it 'should create the services group' do
     expect(chef_run).to create_group(services_group).with(system: true)
@@ -77,8 +82,12 @@ describe 'ircd-ratbox::services' do
     expect(chef_run).to include_recipe 'build-essential'
   end
 
-  it 'should install the libssl-dev package' do
+  it 'should install the libssl-dev if SSL is enabled' do
     expect(chef_run).to install_package 'libssl-dev'
+  end
+
+  it 'should not install the libssl-dev library if SSL is disabled' do
+    expect(chef_no_ssl).to_not install_package 'libssl-dev'
   end
 
   it 'should configure ratbox-services' do

@@ -8,6 +8,7 @@ services_source_dir = node[:ircd][:services][:sourcedir]
 services_uri = node[:ircd][:services][:download]
 services_filename = services_uri.split('/').last
 
+# Create our user and group
 group services_group do
   system true
 end
@@ -21,6 +22,7 @@ user services_user do
   supports(managed_home: true)
 end
 
+# Create the install and source directories
 [services_directory, services_source_dir].each do |dir|
   directory dir do
     owner services_user
@@ -30,6 +32,7 @@ end
   end
 end
 
+# Download the sourcecode archive
 remote_file("#{services_source_dir}/#{services_filename}") do
   source services_uri
   owner services_user
@@ -38,6 +41,7 @@ remote_file("#{services_source_dir}/#{services_filename}") do
   action :create_if_missing
 end
 
+# Extract the sourcecode to the source directory
 extract_cmd = "tar --strip-components=1 -xf #{services_filename}"
 bash(extract_cmd) do
   user services_user
@@ -46,8 +50,9 @@ bash(extract_cmd) do
   code extract_cmd
 end
 
-package 'libssl-dev'
+package 'libssl-dev' if node[:ircd][:config][:ssl]
 
+# Configure, build, and install ratbox-services
 bash('configure ratbox-services') do
   user services_user
   group services_group

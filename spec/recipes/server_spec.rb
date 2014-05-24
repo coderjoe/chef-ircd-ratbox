@@ -1,6 +1,18 @@
 # Encoding: utf-8
 require 'spec_helper'
 
+def build_chef_run(opts = {})
+  ChefSpec::Runner.new do |node|
+    node.set[:ircd][:server][:user] = ircd_user
+    node.set[:ircd][:server][:group] = ircd_group
+    node.set[:ircd][:server][:sourcedir] = ircd_source_dir
+    node.set[:ircd][:server][:directory] = ircd_directory
+    node.set[:ircd][:server][:download] = ircd_uri
+
+    node.set[:ircd][:config][:ssl] = opts.fetch(:ssl, true)
+  end.converge(described_recipe)
+end
+
 describe 'ircd-ratbox::server' do
   let(:ircd_user) { 'ircd-user' }
   let(:ircd_group) { 'ircd-group' }
@@ -9,15 +21,8 @@ describe 'ircd-ratbox::server' do
   let(:ircd_filename) { 'ircd-ratbox-9.7.8.tar.bz2' }
   let(:ircd_uri) { "http://fake.example.com/ircd/#{ircd_filename}" }
 
-  let(:chef_run) do
-    ChefSpec::Runner.new do |node|
-      node.set[:ircd][:server][:user] = ircd_user
-      node.set[:ircd][:server][:group] = ircd_group
-      node.set[:ircd][:server][:sourcedir] = ircd_source_dir
-      node.set[:ircd][:server][:directory] = ircd_directory
-      node.set[:ircd][:server][:download] = ircd_uri
-    end.converge(described_recipe)
-  end
+  let(:chef_run) { build_chef_run }
+  let(:chef_no_ssl) { build_chef_run(ssl: false) }
 
   it 'should create the ircd directory' do
     expect(chef_run).to create_directory(ircd_directory).with(
@@ -75,8 +80,12 @@ describe 'ircd-ratbox::server' do
     expect(chef_run).to include_recipe 'build-essential'
   end
 
-  it 'should install libssl-dev' do
+  it 'should install libssl-dev if SSL is enabled' do
     expect(chef_run).to install_package 'libssl-dev'
+  end
+
+  it 'should not install libssl-dev if SSL is disabled' do
+    expect(chef_no_ssl).to_not install_package 'libssl-dev'
   end
 
   it 'should configure with services' do
