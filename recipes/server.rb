@@ -74,3 +74,9 @@ bash('install ratbox') do
   cwd ircd_source_dir
   code 'make install'
 end
+
+directory("#{ircd_directory}/logs") do
+  owner ircd_user
+  group ircd_group
+  mode 0750
+end

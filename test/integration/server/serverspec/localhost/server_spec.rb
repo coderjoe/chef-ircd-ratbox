@@ -16,7 +16,7 @@ describe 'ircd-ratbox::server' do
     it { should have_login_shell '/bin/false' }
   end
 
-  ['/home/ratbox', '/home/ratbox/src'].each do |dir|
+  ['/home/ratbox', '/home/ratbox/src', '/home/ratbox/logs'].each do |dir|
     describe file(dir) do
       it { should be_directory }
       it { should be_owned_by user }

@@ -114,4 +114,12 @@ describe 'ircd-ratbox::server' do
       code: 'make install'
     )
   end
+
+  it 'should add a logs directory to ratbox' do
+    expect(chef_run).to create_directory("#{ircd_directory}/logs").with(
+      owner: ircd_user,
+      group: ircd_group,
+      mode: 0750
+    )
+  end
 end
