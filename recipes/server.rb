@@ -1,4 +1,5 @@
 # Encoding: utf-8
+include_recipe 'apt'
 include_recipe 'build-essential'
 
 ircd_user = node[:ircd][:server][:user]
