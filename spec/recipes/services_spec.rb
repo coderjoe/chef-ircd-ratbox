@@ -1,19 +1,19 @@
 # Encoding: utf-8
 require 'spec_helper'
 
-def build_chef_run(opts = {})
-  ChefSpec::Runner.new do |node|
-    node.set[:ircd][:services][:user] = services_user
-    node.set[:ircd][:services][:group] = services_group
-    node.set[:ircd][:services][:sourcedir] = services_source_dir
-    node.set[:ircd][:services][:directory] = services_directory
-    node.set[:ircd][:services][:download] = services_uri
-
-    node.set[:ircd][:config][:ssl] = opts.fetch(:ssl, true)
-  end.converge(described_recipe)
-end
-
 describe 'ircd-ratbox::services' do
+  def build_chef_run(opts = {})
+    ChefSpec::Runner.new do |node|
+      node.set[:ircd][:services][:user] = services_user
+      node.set[:ircd][:services][:group] = services_group
+      node.set[:ircd][:services][:sourcedir] = services_source_dir
+      node.set[:ircd][:services][:directory] = services_directory
+      node.set[:ircd][:services][:download] = services_uri
+
+      node.set[:ircd][:config][:ssl] = opts.fetch(:ssl, true)
+    end.converge(described_recipe)
+  end
+
   let(:services_user) { 'services-user' }
   let(:services_group) { 'services-group' }
   let(:services_source_dir) { '/home/services/src' }
