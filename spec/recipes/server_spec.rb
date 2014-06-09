@@ -80,7 +80,7 @@ describe 'ircd-ratbox::server' do
     # rubocop:disable UselessAssignment
     exist = ::File.method(:exists?)
     # rubocop:enable UselessAssignment
-    ::File.stub(:exist?).and_return { |f| exist(f) }
+    ::File.stub(:exist?) { |f| exist(f) }
     ::File.stub(:exist?).with("#{ircd_source_dir}/configure") do
       true
     end
@@ -114,7 +114,7 @@ describe 'ircd-ratbox::server' do
     # rubocop:disable UselessAssignment
     exist = ::File.method(:exists?)
     # rubocop:enable UselessAssignment
-    ::File.stub(:exist?).and_return { |f| exist(f) }
+    ::File.stub(:exist?) { |f| exist(f) }
     ::File.stub(:exist?).with("#{ircd_source_dir}/Makefile") do
       true
     end
@@ -135,7 +135,7 @@ describe 'ircd-ratbox::server' do
     # rubocop:disable UselessAssignment
     exist = ::File.method(:exists?)
     # rubocop:enable UselessAssignment
-    ::File.stub(:exist?).and_return { |f| exist(f) }
+    ::File.stub(:exist?) { |f| exist(f) }
     ::File.stub(:exist?).with("#{ircd_source_dir}/ircd") do
       true
     end
@@ -156,7 +156,7 @@ describe 'ircd-ratbox::server' do
     # rubocop:disable UselessAssignment
     exist = ::File.method(:exists?)
     # rubocop:enable UselessAssignment
-    ::File.stub(:exist?).and_return { |f| exist(f) }
+    ::File.stub(:exist?) { |f| exist(f) }
     ::File.stub(:exist?).with("#{ircd_directory}/bin/ircd") do
       true
     end

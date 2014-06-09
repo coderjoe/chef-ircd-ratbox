@@ -82,7 +82,7 @@ describe 'ircd-ratbox::services' do
     # rubocop:disable UselessAssignment
     exist = ::File.method(:exists?)
     # rubocop:enable UselessAssignment
-    ::File.stub(:exist?).and_return { |f| exist(f) }
+    ::File.stub(:exist?) { |f| exist(f) }
     ::File.stub(:exist?).with("#{services_source_dir}/configure") do
       true
     end
@@ -116,7 +116,7 @@ describe 'ircd-ratbox::services' do
     # rubocop:disable UselessAssignment
     exist = ::File.method(:exists?)
     # rubocop:enable UselessAssignment
-    ::File.stub(:exist?).and_return { |f| exist(f) }
+    ::File.stub(:exist?) { |f| exist(f) }
     ::File.stub(:exist?).with("#{services_source_dir}/Makefile") do
       true
     end
@@ -137,7 +137,7 @@ describe 'ircd-ratbox::services' do
     # rubocop:disable UselessAssignment
     exist = ::File.method(:exists?)
     # rubocop:enable UselessAssignment
-    ::File.stub(:exist?).and_return { |f| exist(f) }
+    ::File.stub(:exist?) { |f| exist(f) }
     ::File.stub(:exist?).with("#{services_source_dir}/src/ratbox-services") do
       true
     end
@@ -158,7 +158,7 @@ describe 'ircd-ratbox::services' do
     # rubocop:disable UselessAssignment
     exist = ::File.method(:exists?)
     # rubocop:enable UselessAssignment
-    ::File.stub(:exist?).and_return { |f| exist(f) }
+    ::File.stub(:exist?) { |f| exist(f) }
     ::File.stub(:exist?).with("#{services_directory}/sbin/ratbox-services") do
       true
     end
