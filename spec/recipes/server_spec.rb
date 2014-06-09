@@ -76,6 +76,19 @@ describe 'ircd-ratbox::server' do
     )
   end
 
+  it 'should not extract if already extracted' do
+    # rubocop:disable UselessAssignment
+    exist = ::File.method(:exists?)
+    # rubocop:enable UselessAssignment
+    ::File.stub(:exist?).and_return { |f| exist(f) }
+    ::File.stub(:exist?).with("#{ircd_source_dir}/configure") do
+      true
+    end
+
+    cmd = "tar --strip-components=1 -xf #{ircd_filename}"
+    expect(chef_run).to_not run_bash(cmd)
+  end
+
   it 'should include build-essential' do
     expect(chef_run).to include_recipe 'build-essential'
   end
@@ -97,6 +110,18 @@ describe 'ircd-ratbox::server' do
     )
   end
 
+  it 'should not configure if already configured' do
+    # rubocop:disable UselessAssignment
+    exist = ::File.method(:exists?)
+    # rubocop:enable UselessAssignment
+    ::File.stub(:exist?).and_return { |f| exist(f) }
+    ::File.stub(:exist?).with("#{ircd_source_dir}/Makefile") do
+      true
+    end
+
+    expect(chef_run).to_not run_bash('configure ratbox')
+  end
+
   it 'should build ratbox' do
     expect(chef_run).to run_bash('build ratbox').with(
       user: ircd_user,
@@ -106,6 +131,18 @@ describe 'ircd-ratbox::server' do
     )
   end
 
+  it 'should not build ratbox if already built' do
+    # rubocop:disable UselessAssignment
+    exist = ::File.method(:exists?)
+    # rubocop:enable UselessAssignment
+    ::File.stub(:exist?).and_return { |f| exist(f) }
+    ::File.stub(:exist?).with("#{ircd_source_dir}/ircd") do
+      true
+    end
+
+    expect(chef_run).to_not run_bash('build ratbox')
+  end
+
   it 'should install ratbox' do
     expect(chef_run).to run_bash('install ratbox').with(
       user: ircd_user,
@@ -113,6 +150,18 @@ describe 'ircd-ratbox::server' do
       cwd: ircd_source_dir,
       code: 'make install'
     )
+  end
+
+  it 'should not install if already installed' do
+    # rubocop:disable UselessAssignment
+    exist = ::File.method(:exists?)
+    # rubocop:enable UselessAssignment
+    ::File.stub(:exist?).and_return { |f| exist(f) }
+    ::File.stub(:exist?).with("#{ircd_directory}/bin/ircd") do
+      true
+    end
+
+    expect(chef_run).to_not run_bash('install ratbox')
   end
 
   it 'should add a logs directory to ratbox' do

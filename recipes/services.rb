@@ -49,6 +49,7 @@ bash(extract_cmd) do
   group services_group
   cwd services_source_dir
   code extract_cmd
+  not_if { ::File.exist? "#{services_source_dir}/configure" }
 end
 
 package 'libssl-dev' if node[:ircd][:config][:ssl]
@@ -59,6 +60,7 @@ bash('configure ratbox-services') do
   group services_group
   cwd services_source_dir
   code "./configure --prefix=\"#{services_directory}\""
+  not_if { ::File.exist? "#{services_source_dir}/Makefile" }
 end
 
 bash('build ratbox-services') do
@@ -66,6 +68,7 @@ bash('build ratbox-services') do
   group services_group
   cwd services_source_dir
   code 'make'
+  not_if { ::File.exist? "#{services_source_dir}/src/ratbox-services" }
 end
 
 bash('install ratbox-services') do
@@ -73,4 +76,5 @@ bash('install ratbox-services') do
   group services_group
   cwd services_source_dir
   code 'make install'
+  not_if { ::File.exist? "#{services_directory}/sbin/ratbox-services" }
 end

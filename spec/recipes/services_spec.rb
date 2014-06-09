@@ -78,6 +78,19 @@ describe 'ircd-ratbox::services' do
     )
   end
 
+  it 'should not extract if the files already exist' do
+    # rubocop:disable UselessAssignment
+    exist = ::File.method(:exists?)
+    # rubocop:enable UselessAssignment
+    ::File.stub(:exist?).and_return { |f| exist(f) }
+    ::File.stub(:exist?).with("#{services_source_dir}/configure") do
+      true
+    end
+
+    cmd = "tar --strip-components=1 -xf #{services_filename}"
+    expect(chef_run).to_not run_bash(cmd)
+  end
+
   it 'should include build-essential' do
     expect(chef_run).to include_recipe 'build-essential'
   end
@@ -99,6 +112,18 @@ describe 'ircd-ratbox::services' do
     )
   end
 
+  it 'should not configure if already configured' do
+    # rubocop:disable UselessAssignment
+    exist = ::File.method(:exists?)
+    # rubocop:enable UselessAssignment
+    ::File.stub(:exist?).and_return { |f| exist(f) }
+    ::File.stub(:exist?).with("#{services_source_dir}/Makefile") do
+      true
+    end
+
+    expect(chef_run).to_not run_bash('configure ratbox-services')
+  end
+
   it 'should build ratbox-services' do
     expect(chef_run).to run_bash('build ratbox-services').with(
       user: services_user,
@@ -108,6 +133,18 @@ describe 'ircd-ratbox::services' do
     )
   end
 
+  it 'should not build if already built' do
+    # rubocop:disable UselessAssignment
+    exist = ::File.method(:exists?)
+    # rubocop:enable UselessAssignment
+    ::File.stub(:exist?).and_return { |f| exist(f) }
+    ::File.stub(:exist?).with("#{services_source_dir}/src/ratbox-services") do
+      true
+    end
+
+    expect(chef_run).to_not run_bash('build ratbox-services')
+  end
+
   it 'should install ratbox-services' do
     expect(chef_run).to run_bash('install ratbox-services').with(
       user: services_user,
@@ -115,5 +152,17 @@ describe 'ircd-ratbox::services' do
       cwd: services_source_dir,
       code: 'make install'
     )
+  end
+
+  it 'should not install if already installed' do
+    # rubocop:disable UselessAssignment
+    exist = ::File.method(:exists?)
+    # rubocop:enable UselessAssignment
+    ::File.stub(:exist?).and_return { |f| exist(f) }
+    ::File.stub(:exist?).with("#{services_directory}/sbin/ratbox-services") do
+      true
+    end
+
+    expect(chef_run).to_not run_bash('install ratbox-services')
   end
 end

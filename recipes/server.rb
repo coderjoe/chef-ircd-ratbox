@@ -49,6 +49,7 @@ bash(extract_cmd) do
   group ircd_group
   cwd ircd_source_dir
   code extract_cmd
+  not_if { ::File.exist? "#{ircd_source_dir}/configure" }
 end
 
 # Install SSL if requested
@@ -60,6 +61,7 @@ bash('configure ratbox') do
   group ircd_group
   cwd ircd_source_dir
   code "./configure --prefix=\"#{ircd_directory}\" --enable-services"
+  not_if { ::File.exist? "#{ircd_source_dir}/Makefile" }
 end
 
 bash('build ratbox') do
@@ -67,6 +69,7 @@ bash('build ratbox') do
   group ircd_group
   cwd ircd_source_dir
   code 'make'
+  not_if { ::File.exist? "#{ircd_source_dir}/ircd" }
 end
 
 bash('install ratbox') do
@@ -74,6 +77,7 @@ bash('install ratbox') do
   group ircd_group
   cwd ircd_source_dir
   code 'make install'
+  not_if { ::File.exist? "#{ircd_directory}/bin/ircd" }
 end
 
 directory("#{ircd_directory}/logs") do
