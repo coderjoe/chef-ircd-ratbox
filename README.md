@@ -1,6 +1,7 @@
 # ircd-ratbox cookbook
 
 [![Build Status](https://travis-ci.org/coderjoe/chef-ircd-ratbox.svg?branch=master)](https://travis-ci.org/coderjoe/chef-ircd-ratbox)
+[![Dependency Status](https://gemnasium.com/coderjoe/chef-ircd-ratbox.svg)](https://gemnasium.com/coderjoe/chef-ircd-ratbox)
 
 A cookbook designed to build and install ircd-ratbox and ratbox-services from the official downloads.
 Due to the complex nature of ircd configuration only the default configuration is installed.
