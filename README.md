@@ -1,5 +1,7 @@
 # ircd-ratbox cookbook
 
+## Note: This project has been archived as I no longer use chef
+
 [![Build Status](https://travis-ci.org/coderjoe/chef-ircd-ratbox.svg?branch=master)](https://travis-ci.org/coderjoe/chef-ircd-ratbox)
 [![Dependency Status](https://gemnasium.com/coderjoe/chef-ircd-ratbox.svg)](https://gemnasium.com/coderjoe/chef-ircd-ratbox)
 
